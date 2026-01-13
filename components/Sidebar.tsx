@@ -9,7 +9,7 @@ interface SidebarProps {
 
 const Sidebar: React.FC<SidebarProps> = ({ activeTab, setActiveTab }) => {
   return (
-    <div className="w-64 h-full bg-[#111111] text-white flex flex-col p-8 rounded-r-[40px] hidden lg:flex border-r border-white/5 shadow-2xl">
+    <div className="w-64 h-full bg-[#111111] text-white flex flex-col p-8 lg:rounded-r-[40px] border-r border-white/5 shadow-2xl">
       <div className="flex items-center gap-3 mb-12 px-2">
         <h1 className="text-2xl font-black tracking-tighter text-white">fatec<span className="text-[#a6e3a1]">.</span>calc</h1>
       </div>
