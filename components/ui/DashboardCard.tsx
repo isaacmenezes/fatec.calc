@@ -13,7 +13,7 @@ const DashboardCard: React.FC<DashboardCardProps> = ({
   bgColor = "bg-white" 
 }) => {
   return (
-    <div className={`${bgColor} rounded-[32px] p-6 shadow-sm border border-gray-100 ${className}`}>
+    <div className={`${bgColor} rounded-[32px] p-6 shadow-[0px_8px_30px_rgba(0,0,0,0.04)] border border-gray-100 ${className}`}>
       {children}
     </div>
   );
