@@ -1,15 +1,17 @@
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import Sidebar from './components/Sidebar';
 import CalculatorForm from './components/CalculatorForm';
 import CalculatorResult from './components/CalculatorResult';
+import LandingPage from './components/LandingPage';
 import { CalculatorInputs } from './types';
 import { useCalculator } from './hooks/useCalculator';
-import { Menu, X, Calculator } from 'lucide-react';
+import { Menu, X, ArrowLeft, Info, BookOpen } from 'lucide-react';
 import DashboardCard from './components/ui/DashboardCard';
 
 const App: React.FC = () => {
+  const [view, setView] = useState<'landing' | 'app'>('landing');
   const [activeTab, setActiveTab] = useState('dashboard');
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [inputs, setInputs] = useState<CalculatorInputs>({
@@ -22,67 +24,92 @@ const App: React.FC = () => {
 
   const results = useCalculator(inputs);
 
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [view]);
+
+  if (view === 'landing') {
+    return <LandingPage onStart={(tab) => {
+      if (tab) setActiveTab(tab);
+      setView('app');
+    }} />;
+  }
+
   return (
-    <div className="flex h-screen w-full bg-[#f8f7f4] overflow-hidden lg:p-6">
-      <div className="flex w-full h-full bg-white rounded-none lg:rounded-[48px] overflow-hidden shadow-2xl relative">
+    <div className="flex h-screen w-full bg-[#f8f7f4] lg:p-6 text-slate-900">
+      <div className="flex w-full h-full bg-white rounded-none lg:rounded-[48px] overflow-hidden shadow-2xl relative border-none">
         
-        {/* Mobile Menu Toggle Button (Menu Burger) */}
-        {!isMobileMenuOpen && (
+        {/* Mobile Header */}
+        <div className="lg:hidden absolute top-0 left-0 right-0 h-20 bg-white/80 backdrop-blur-md z-40 px-6 flex items-center justify-between border-b border-gray-100">
+          <h1 className="text-xl font-bold tracking-tight">fatec.calc</h1>
           <button 
             onClick={() => setIsMobileMenuOpen(true)} 
-            className="lg:hidden fixed top-5 left-5 z-40 p-3 rounded-2xl bg-black text-white shadow-xl active:scale-95 transition-transform"
+            className="p-3 rounded-2xl bg-slate-50 text-slate-900 border border-slate-100"
           >
             <Menu size={20} />
           </button>
-        )}
+        </div>
 
         {/* Mobile Menu Overlay */}
         <AnimatePresence>
           {isMobileMenuOpen && (
-            <motion.div 
-              initial={{ opacity: 0 }} 
-              animate={{ opacity: 1 }} 
-              exit={{ opacity: 0 }}
-              onClick={() => setIsMobileMenuOpen(false)}
-              className="fixed inset-0 bg-black/60 z-40 lg:hidden backdrop-blur-sm"
-            />
+            <>
+              <motion.div 
+                initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
+                onClick={() => setIsMobileMenuOpen(false)}
+                className="fixed inset-0 bg-black/60 z-[70] backdrop-blur-sm lg:hidden"
+              />
+              <motion.div 
+                initial={{ x: '-100%' }} animate={{ x: 0 }} exit={{ x: '-100%' }}
+                className="fixed inset-y-0 left-0 w-72 z-[80] lg:hidden bg-[#111]"
+              >
+                <Sidebar activeTab={activeTab} setActiveTab={(tab) => { setActiveTab(tab); setIsMobileMenuOpen(false); }} />
+                <button onClick={() => setIsMobileMenuOpen(false)} className="absolute top-6 right-6 text-white/50">
+                  <X size={24} />
+                </button>
+              </motion.div>
+            </>
           )}
         </AnimatePresence>
 
-        {/* Sidebar Wrapper */}
-        <div className={`fixed inset-y-0 left-0 z-50 transform ${isMobileMenuOpen ? 'translate-x-0' : '-translate-x-full'} lg:relative lg:translate-x-0 transition-transform duration-300 ease-in-out h-full`}>
-          <Sidebar activeTab={activeTab} setActiveTab={(tab) => { setActiveTab(tab); setIsMobileMenuOpen(false); }} />
-          
-          {/* Close Button - Only visible when menu is open */}
-          {isMobileMenuOpen && (
-            <button 
-              onClick={() => setIsMobileMenuOpen(false)} 
-              className="absolute top-5 right-5 lg:hidden text-white hover:text-[#a6e3a1] transition-colors"
-            >
-              <X size={24} />
-            </button>
-          )}
+        {/* Sidebar Desktop */}
+        <div className="hidden lg:block">
+          <Sidebar activeTab={activeTab} setActiveTab={setActiveTab} />
         </div>
 
         {/* Main Content Area */}
-        <main className="flex-1 flex flex-col h-full overflow-hidden">
-          <div className="flex-1 overflow-y-auto lg:overflow-hidden bg-[#faf9f6] p-4 sm:p-6 lg:p-8">
-            <div className="max-w-6xl mx-auto h-full flex flex-col">
+        <main className="flex-1 flex flex-col h-full overflow-hidden bg-[#faf9f6]">
+          <header className="hidden lg:flex items-center justify-between px-12 py-8 bg-white/50 backdrop-blur-sm">
+            <div className="flex items-center gap-4">
+              <button 
+                onClick={() => setView('landing')}
+                className="p-2 rounded-xl bg-white shadow-sm border border-gray-100 hover:bg-gray-50 transition-colors"
+              >
+                <ArrowLeft size={18} />
+              </button>
+              <h2 className="text-sm font-bold text-gray-400 uppercase tracking-widest">Dashboard / {activeTab}</h2>
+            </div>
+            <div className="flex items-center gap-4">
+              <div className="h-2 w-2 rounded-full bg-green-400 animate-pulse" />
+              <span className="text-xs font-bold text-gray-500 uppercase tracking-widest">Manual Atualizado 2026</span>
+            </div>
+          </header>
+
+          <div className="flex-1 overflow-y-auto px-6 md:px-12 pb-12">
+            <div className="max-w-6xl mx-auto pt-24 lg:pt-0">
               <AnimatePresence mode="wait">
                 {activeTab === 'dashboard' && (
                   <motion.div 
                     key="dash" 
-                    initial={{ opacity: 0, y: 10 }} 
-                    animate={{ opacity: 1, y: 0 }} 
-                    exit={{ opacity: 0, y: -10 }} 
-                    className="flex flex-col gap-3 lg:gap-6 lg:h-full lg:justify-center"
+                    initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -10 }} 
+                    className="flex flex-col gap-10"
                   >
-                    <div className="pt-14 lg:pt-0">
-                      <h1 className="text-2xl lg:text-4xl font-black text-gray-900 tracking-tight mb-0.5">Olá, Candidato!</h1>
-                      <p className="text-gray-500 font-medium text-xs lg:text-base leading-tight">Calcule sua pontuação final para o vestibular da FATEC.</p>
+                    <div>
+                      <h1 className="text-3xl md:text-5xl font-black text-gray-900 tracking-tight">Calculadora</h1>
+                      <p className="text-gray-500 font-medium text-lg mt-2 tracking-tight">Consulte sua nota projetada com precisão oficial.</p>
                     </div>
 
-                    <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 lg:gap-8 items-stretch lg:min-h-0 lg:flex-1">
+                    <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch">
                       <div className="lg:col-span-7">
                         <CalculatorForm inputs={inputs} setInputs={setInputs} />
                       </div>
@@ -93,71 +120,77 @@ const App: React.FC = () => {
                   </motion.div>
                 )}
 
+                {activeTab === 'redacao' && (
+                  <motion.div 
+                    key="red" 
+                    initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}
+                    className="flex flex-col gap-8"
+                  >
+                    <h1 className="text-3xl md:text-5xl font-black text-gray-900 tracking-tight">Critérios da Redação</h1>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                      <DashboardCard className="p-8 space-y-4">
+                        <div className="w-12 h-12 bg-blue-50 text-blue-600 rounded-2xl flex items-center justify-center">
+                          <BookOpen size={24} />
+                        </div>
+                        <h3 className="text-xl font-bold">Domínio da Norma Culta</h3>
+                        <p className="text-gray-500 leading-relaxed">Demonstre conhecimento das regras gramaticais e ortográficas do português formal.</p>
+                      </DashboardCard>
+                      <DashboardCard className="p-8 space-y-4">
+                        <div className="w-12 h-12 bg-pink-50 text-pink-600 rounded-2xl flex items-center justify-center">
+                          <Info size={24} />
+                        </div>
+                        <h3 className="text-xl font-bold">Desenvolvimento do Tema</h3>
+                        <p className="text-gray-500 leading-relaxed">Organize seus argumentos de forma coerente e apresente repertório cultural pertinente.</p>
+                      </DashboardCard>
+                    </div>
+                    <DashboardCard className="p-10 bg-slate-900 text-white border-none shadow-xl">
+                      <h2 className="text-2xl font-bold mb-4">Lembre-se</h2>
+                      <p className="text-slate-400 text-lg leading-relaxed">A redação representa 20% do cálculo final. Um bom desempenho aqui pode elevar drasticamente sua pontuação geral.</p>
+                    </DashboardCard>
+                  </motion.div>
+                )}
+
                 {activeTab === 'guide' && (
                   <motion.div 
-                    key="guide" 
-                    initial={{ opacity: 0, scale: 0.98 }} 
-                    animate={{ opacity: 1, scale: 1 }} 
-                    className="flex flex-col gap-4 lg:gap-6 lg:h-full lg:justify-center max-w-4xl mx-auto pt-14 lg:pt-0"
+                    key="gui" 
+                    initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}
+                    className="flex flex-col gap-8"
                   >
-                    <h1 className="text-2xl lg:text-4xl font-black text-gray-900 tracking-tight">Guia do Candidato</h1>
-                    
-                    <div className="grid grid-cols-1 gap-4 overflow-y-auto custom-scrollbar lg:max-h-[75vh]">
-                      <DashboardCard className="bg-[#111111] text-white border-none p-5 lg:p-7">
-                        <h2 className="text-lg lg:text-2xl font-black mb-4 flex items-center gap-3">
-                           <Calculator className="text-[#a6e3a1]" size={20} /> Como sua nota é calculada?
-                        </h2>
-                        
-                        <div className="space-y-4 lg:space-y-5">
-                          <section className="space-y-1">
-                            <h3 className="text-[#a6e3a1] font-bold uppercase text-[9px] tracking-widest">Passo 1: Nota Objetiva (P)</h3>
-                            <p className="text-gray-400 text-[10px] lg:text-xs">Performance normalizada de 0 a 100.</p>
-                            <div className="bg-white/5 p-2 rounded-xl font-mono text-center text-xs lg:text-sm">
-                               P = (100 × NPC) ÷ 60
-                            </div>
-                          </section>
-
-                          <section className="space-y-1">
-                            <h3 className="text-[#89b4fa] font-bold uppercase text-[9px] tracking-widest">Passo 2: Integração ENEM (N)</h3>
-                            <p className="text-gray-400 text-[10px] lg:text-xs">O ENEM entra apenas se beneficiar (20% da nota objetiva).</p>
-                            <div className="bg-white/5 p-2 rounded-xl font-mono text-center text-[10px] lg:text-xs italic">
-                               N = (4P + ENEM%) ÷ 5
-                            </div>
-                          </section>
-
-                          <section className="space-y-1">
-                            <h3 className="text-[#cba6f7] font-bold uppercase text-[9px] tracking-widest">Passo 3: Nota Final (NF)</h3>
-                            <p className="text-gray-400 text-[10px] lg:text-xs">Peso 8 para Prova Objetiva e peso 2 para Redação.</p>
-                            <div className="bg-white/5 p-2 rounded-xl font-mono text-center text-xs lg:text-sm">
-                               NF = (8N + 2R) ÷ 10
-                            </div>
-                          </section>
-
-                          <section className="space-y-1 pt-3 border-t border-white/10">
-                            <h3 className="text-[#f9e2af] font-bold uppercase text-[9px] tracking-widest">Resultado Final: NFC</h3>
-                            <div className="bg-[#f9e2af] text-black p-2 rounded-xl font-black text-center text-sm lg:text-base">
-                               NFC = NF × Bônus
-                            </div>
-                          </section>
-                        </div>
-                      </DashboardCard>
-
-                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 lg:gap-4">
-                        <DashboardCard className="bg-white p-4">
-                          <h4 className="font-black text-gray-900 mb-0.5 uppercase text-[9px] tracking-widest">Dica</h4>
-                          <p className="text-[10px] text-gray-500 leading-tight italic">
-                            O ENEM nunca atrapalha. Se for inferior à prova, o sistema descarta automaticamente.
-                          </p>
-                        </DashboardCard>
-                        <DashboardCard className="bg-[#a6e3a1] p-4">
-                           <h4 className="font-black text-black mb-0.5 uppercase text-[9px] tracking-widest">Bonificação</h4>
-                           <ul className="text-[10px] text-gray-800 space-y-0.5 font-bold">
-                             <li>• Escola Pública: +10%</li>
-                             <li>• Afrodescendente: +3%</li>
-                           </ul>
-                        </DashboardCard>
+                    <h1 className="text-3xl md:text-5xl font-black text-gray-900 tracking-tight">Guia do Candidato</h1>
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                      <div className="bg-white p-6 rounded-[32px] border border-gray-100 shadow-sm">
+                        <h4 className="text-xs font-bold text-blue-600 uppercase tracking-widest mb-2">Escola Pública</h4>
+                        <p className="text-2xl font-black">+10%</p>
+                      </div>
+                      <div className="bg-white p-6 rounded-[32px] border border-gray-100 shadow-sm">
+                        <h4 className="text-xs font-bold text-pink-600 uppercase tracking-widest mb-2">Afrodescendentes</h4>
+                        <p className="text-2xl font-black">+3%</p>
+                      </div>
+                      <div className="bg-white p-6 rounded-[32px] border border-gray-100 shadow-sm">
+                        <h4 className="text-xs font-bold text-slate-800 uppercase tracking-widest mb-2">Ambos</h4>
+                        <p className="text-2xl font-black">+13%</p>
                       </div>
                     </div>
+                    <DashboardCard className="p-12">
+                      <h3 className="text-2xl font-bold mb-6">Composição da Prova</h3>
+                      <ul className="space-y-4">
+                        <li className="flex items-center gap-4 text-gray-600 font-medium">
+                          <div className="w-2 h-2 rounded-full bg-blue-500" /> 08 Português
+                        </li>
+                        <li className="flex items-center gap-4 text-gray-600 font-medium">
+                          <div className="w-2 h-2 rounded-full bg-blue-500" /> 08 Matemática
+                        </li>
+                        <li className="flex items-center gap-4 text-gray-600 font-medium">
+                          <div className="w-2 h-2 rounded-full bg-blue-500" /> 08 Biologia, Física, Química e Geografia
+                        </li>
+                        <li className="flex items-center gap-4 text-gray-600 font-medium">
+                          <div className="w-2 h-2 rounded-full bg-blue-500" /> 05 História e Inglês
+                        </li>
+                        <li className="flex items-center gap-4 text-gray-600 font-medium">
+                          <div className="w-2 h-2 rounded-full bg-slate-900" /> 05 Raciocínio Lógico
+                        </li>
+                      </ul>
+                    </DashboardCard>
                   </motion.div>
                 )}
               </AnimatePresence>

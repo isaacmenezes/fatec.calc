@@ -20,109 +20,84 @@ const CalculatorForm: React.FC<CalculatorFormProps> = ({ inputs, setInputs }) =>
   };
 
   return (
-    <div className="space-y-4 lg:h-full flex flex-col">
-      <DashboardCard className="relative overflow-hidden group flex-1 flex flex-col p-4 lg:p-6">
-        <div className="flex justify-between items-start mb-4">
+    <div className="space-y-6 flex flex-col">
+      <DashboardCard className="p-8">
+        <div className="flex justify-between items-start mb-10">
           <div>
-            <h2 className="text-lg lg:text-xl font-black text-gray-900 tracking-tight">Seu Desempenho</h2>
-            <p className="text-[9px] text-gray-400 font-bold uppercase tracking-widest mt-0.5">Ajuste os valores para simular</p>
+            <h2 className="text-2xl font-bold text-gray-900 tracking-tight">Desempenho</h2>
+            <p className="text-xs text-gray-400 font-medium mt-1">Simule seus valores com as barras</p>
           </div>
-          <HelpCircle size={18} className="text-gray-300" />
+          <HelpCircle size={20} className="text-gray-200" />
         </div>
 
-        <div className="space-y-6 flex-1 flex flex-col justify-center">
+        <div className="space-y-12">
           {/* NPC Section */}
-          <div className="space-y-2">
+          <div className="space-y-6">
             <div className="flex justify-between items-center">
-              <label className="text-[9px] font-black text-gray-500 uppercase tracking-widest">Questões (0-60)</label>
-              <input 
-                type="number"
-                min="0"
-                max="60"
-                value={inputs.npc}
-                onChange={(e) => handleInputChange('npc', Math.min(60, Math.max(0, parseInt(e.target.value) || 0)))}
-                className="w-16 h-10 bg-white border-2 border-gray-200 rounded-xl text-center font-black text-black text-lg focus:outline-none focus:border-black transition-all"
-              />
+              <label className="text-xs font-bold text-gray-500 uppercase tracking-widest">Questões Comuns (0-60)</label>
+              <div className="px-4 py-2 bg-slate-50 rounded-xl font-bold text-slate-900 border border-slate-100 min-w-[60px] text-center">
+                {inputs.npc}
+              </div>
             </div>
-            <div className="relative h-2 flex items-center">
-              <div className="absolute inset-0 bg-gray-200 rounded-full"></div>
-              <motion.div 
-                className="absolute left-0 top-0 h-full bg-black rounded-full"
-                animate={{ width: `${(inputs.npc / 60) * 100}%` }}
-              />
-              <input
-                type="range" min="0" max="60" value={inputs.npc}
-                onChange={(e) => handleInputChange('npc', parseInt(e.target.value))}
-                className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10"
-              />
-            </div>
+            <input 
+              type="range" min="0" max="60" value={inputs.npc}
+              onChange={(e) => handleInputChange('npc', parseInt(e.target.value))}
+              className="w-full h-2 bg-gray-100 rounded-full appearance-none accent-[#1a56db] cursor-pointer"
+            />
           </div>
 
-          <div className="space-y-2">
+          {/* Redação Section */}
+          <div className="space-y-6">
             <div className="flex justify-between items-center">
-              <label className="text-[9px] font-black text-gray-500 uppercase tracking-widest">Redação (0-100)</label>
-              <input 
-                type="number"
-                min="0"
-                max="100"
-                value={inputs.redacao}
-                onChange={(e) => handleInputChange('redacao', Math.min(100, Math.max(0, parseInt(e.target.value) || 0)))}
-                className="w-16 h-10 bg-white border-2 border-gray-200 rounded-xl text-center font-black text-black text-lg focus:outline-none focus:border-black transition-all"
-              />
+              <label className="text-xs font-bold text-gray-500 uppercase tracking-widest">Nota Redação (0-100)</label>
+              <div className="px-4 py-2 bg-slate-50 rounded-xl font-bold text-slate-900 border border-slate-100 min-w-[60px] text-center">
+                {inputs.redacao}
+              </div>
             </div>
-            <div className="relative h-2 flex items-center">
-              <div className="absolute inset-0 bg-gray-200 rounded-full"></div>
-              <motion.div 
-                className="absolute left-0 top-0 h-full bg-[#cba6f7] rounded-full"
-                animate={{ width: `${inputs.redacao}%` }}
-              />
-              <input
-                type="range" min="0" max="100" value={inputs.redacao}
-                onChange={(e) => handleInputChange('redacao', parseInt(e.target.value))}
-                className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10"
-              />
-            </div>
+            <input 
+              type="range" min="0" max="100" value={inputs.redacao}
+              onChange={(e) => handleInputChange('redacao', parseInt(e.target.value))}
+              className="w-full h-2 bg-gray-100 rounded-full appearance-none accent-[#f05179] cursor-pointer"
+            />
           </div>
 
-          {/* ENEM Optional Toggle */}
-          <div className="pt-3 border-t border-gray-100">
+          {/* ENEM Optional */}
+          <div className="pt-6 border-t border-gray-50">
              <button 
                onClick={() => handleInputChange('enem', inputs.enem === null ? 0 : null)}
-               className={`w-full flex items-center justify-between p-3 rounded-xl border transition-all duration-300 ${
-                 inputs.enem !== null 
-                 ? 'bg-black border-black text-white' 
-                 : 'bg-white border-gray-100 text-gray-400 hover:border-gray-200'
+               className={`w-full flex items-center justify-between p-5 rounded-2xl transition-all ${
+                 inputs.enem !== null ? 'bg-slate-900 text-white shadow-xl shadow-slate-200' : 'bg-slate-50 text-slate-400 border border-slate-100'
                }`}
              >
-                <div className="flex items-center gap-2">
-                  <div className={`w-4 h-4 rounded-md flex items-center justify-center ${inputs.enem !== null ? 'bg-white text-black' : 'bg-gray-100'}`}>
-                    {inputs.enem !== null && <Check size={12} strokeWidth={4} />}
+                <div className="flex items-center gap-4">
+                  <div className={`w-6 h-6 rounded-lg flex items-center justify-center transition-colors ${inputs.enem !== null ? 'bg-white text-black' : 'bg-gray-200'}`}>
+                    {inputs.enem !== null && <Check size={14} strokeWidth={4} />}
                   </div>
-                  <span className="text-[9px] font-black uppercase tracking-widest">Nota do ENEM</span>
+                  <span className="font-bold text-sm">Utilizar nota do ENEM</span>
                 </div>
+                {inputs.enem === null && <span className="text-[10px] font-bold uppercase tracking-widest opacity-50">Opcional</span>}
              </button>
              
              <AnimatePresence>
                {inputs.enem !== null && (
                  <motion.div 
-                   initial={{ height: 0, opacity: 0 }}
-                   animate={{ height: 'auto', opacity: 1 }}
-                   exit={{ height: 0, opacity: 0 }}
-                   className="overflow-hidden mt-2"
+                   initial={{ height: 0, opacity: 0 }} animate={{ height: 'auto', opacity: 1 }} exit={{ height: 0, opacity: 0 }}
+                   className="overflow-hidden mt-6"
                  >
-                    <div className="bg-gray-100 rounded-xl p-3 space-y-2 border border-gray-200">
+                    <div className="bg-slate-50 rounded-3xl p-6 space-y-6 border border-slate-100">
                       <div className="flex justify-between items-center">
-                        <span className="text-[8px] text-gray-500 font-black uppercase tracking-widest">ENEM</span>
+                        <span className="text-xs text-slate-400 font-bold uppercase">Nota ENEM (0-1000)</span>
                         <input 
                           type="number" min="0" max="1000" value={inputs.enem || ''}
                           onChange={(e) => handleInputChange('enem', Math.min(1000, Math.max(0, parseInt(e.target.value) || 0)))}
-                          className="w-20 h-9 bg-white border-2 border-gray-200 rounded-lg text-center font-black text-black text-sm focus:outline-none focus:border-black"
+                          className="w-24 h-10 border border-slate-200 rounded-xl text-center font-bold text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all"
+                          placeholder="0-1000"
                         />
                       </div>
-                      <input
+                      <input 
                         type="range" min="0" max="1000" value={inputs.enem || 0}
                         onChange={(e) => handleInputChange('enem', parseInt(e.target.value))}
-                        className="w-full h-1 bg-gray-300 rounded-full appearance-none accent-black"
+                        className="w-full h-2 bg-gray-200 rounded-full appearance-none accent-slate-900"
                       />
                     </div>
                  </motion.div>
@@ -132,38 +107,33 @@ const CalculatorForm: React.FC<CalculatorFormProps> = ({ inputs, setInputs }) =>
         </div>
       </DashboardCard>
 
-      <DashboardCard className="bg-[#f9e2af] border-none p-4 lg:p-5 shadow-lg shadow-yellow-500/10">
-        <h2 className="text-[10px] font-black text-gray-900 uppercase tracking-tighter mb-3">Bonificação</h2>
-        <div className="grid grid-cols-2 gap-2">
-          <button
-            onClick={() => handleToggle('isAfro')}
-            className={`flex items-center gap-2 p-2.5 rounded-xl transition-all ${
-              inputs.isAfro ? 'bg-black text-white' : 'bg-white/40 text-gray-800'
-            }`}
-          >
-            <div className={`w-4 h-4 rounded-md flex items-center justify-center flex-shrink-0 ${inputs.isAfro ? 'bg-white text-black' : 'bg-white/50 text-gray-400'}`}>
-              {inputs.isAfro && <Check size={12} strokeWidth={4} />}
-            </div>
-            <div className="text-left overflow-hidden">
-              <span className="block font-black text-[10px] leading-tight truncate">Afro</span>
-            </div>
-          </button>
+      <div className="grid grid-cols-2 gap-4">
+        <button 
+          onClick={() => handleToggle('isAfro')}
+          className={`group relative flex flex-col items-center justify-center gap-3 p-8 rounded-[32px] transition-all duration-300 border-2 ${
+            inputs.isAfro ? 'bg-slate-900 text-white border-slate-900 shadow-xl' : 'bg-white text-slate-400 border-gray-100 hover:border-pink-200'
+          }`}
+        >
+          <div className={`w-10 h-10 rounded-2xl flex items-center justify-center transition-colors ${inputs.isAfro ? 'bg-white text-slate-900' : 'bg-slate-50 text-slate-300'}`}>
+            <Check size={20} strokeWidth={3} className={`${inputs.isAfro ? 'opacity-100' : 'opacity-0'}`} />
+          </div>
+          <span className="font-bold text-sm tracking-tight">Afrodescendente</span>
+          <span className="text-[10px] font-bold uppercase tracking-widest opacity-50">+3% bônus</span>
+        </button>
 
-          <button
-            onClick={() => handleToggle('isPublic')}
-            className={`flex items-center gap-2 p-2.5 rounded-xl transition-all ${
-              inputs.isPublic ? 'bg-black text-white' : 'bg-white/40 text-gray-800'
-            }`}
-          >
-            <div className={`w-4 h-4 rounded-md flex items-center justify-center flex-shrink-0 ${inputs.isPublic ? 'bg-white text-black' : 'bg-white/50 text-gray-400'}`}>
-              {inputs.isPublic && <Check size={12} strokeWidth={4} />}
-            </div>
-            <div className="text-left overflow-hidden">
-              <span className="block font-black text-[10px] leading-tight truncate">Pública</span>
-            </div>
-          </button>
-        </div>
-      </DashboardCard>
+        <button 
+          onClick={() => handleToggle('isPublic')}
+          className={`group relative flex flex-col items-center justify-center gap-3 p-8 rounded-[32px] transition-all duration-300 border-2 ${
+            inputs.isPublic ? 'bg-slate-900 text-white border-slate-900 shadow-xl' : 'bg-white text-slate-400 border-gray-100 hover:border-blue-200'
+          }`}
+        >
+          <div className={`w-10 h-10 rounded-2xl flex items-center justify-center transition-colors ${inputs.isPublic ? 'bg-white text-slate-900' : 'bg-slate-50 text-slate-300'}`}>
+            <Check size={20} strokeWidth={3} className={`${inputs.isPublic ? 'opacity-100' : 'opacity-0'}`} />
+          </div>
+          <span className="font-bold text-sm tracking-tight">Escola Pública</span>
+          <span className="text-[10px] font-bold uppercase tracking-widest opacity-50">+10% bônus</span>
+        </button>
+      </div>
     </div>
   );
 };
