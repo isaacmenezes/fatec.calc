@@ -17,7 +17,7 @@ interface MarkerTextProps {
 
 const MarkerText: React.FC<MarkerTextProps> = ({
   children,
-  color = "#f05179",
+  color = "#ee4370",
   delay = 0.5,
   trigger
 }) => (
@@ -44,7 +44,7 @@ const LandingPage: React.FC<LandingPageProps> = ({ onStart }) => {
       verticalText: 'CALC.',
       color: 'bg-white',
       textColor: 'text-black',
-      icon: <Calculator className="text-[#f05179]" size={32} />,
+      icon: <Calculator className="text-[#ee4370]" size={32} />,
       description: 'Insira seus acertos e a nota da redação para calcular sua pontuação final no vestibular da Fatec. Ideal para acompanhar seu desempenho real.'
     },
     {
@@ -62,7 +62,7 @@ const LandingPage: React.FC<LandingPageProps> = ({ onStart }) => {
       number: '03',
       title: 'Guia',
       verticalText: 'GUIA',
-      color: 'bg-[#f05179]',
+      color: 'bg-[#ee4370]',
       textColor: 'text-white',
       icon: <BookOpen className="text-#1a56db" size={32} />,
       description: 'Tudo o que você precisa saber sobre pesos, bonificações e o manual do candidato condensado de forma simples.'
@@ -70,7 +70,7 @@ const LandingPage: React.FC<LandingPageProps> = ({ onStart }) => {
   ];
 
   return (
-    <div className="min-h-screen bg-[#1a56db] flex flex-col overflow-x-hidden selection:bg-[#f05179] selection:text-white">
+    <div className="min-h-screen bg-[#1a56db] flex flex-col overflow-x-hidden selection:bg-[#ee4370] selection:text-white">
       <div className="fixed inset-0 pointer-events-none z-0">
         <motion.div
           animate={{ y: [0, -20, 0] }}
@@ -97,19 +97,20 @@ const LandingPage: React.FC<LandingPageProps> = ({ onStart }) => {
       </div>
 
       <header className="px-6 py-6 md:px-12 flex justify-between items-center relative z-40">
-        <h1 className="text-white text-4xl md:text-4xl font-black tracking-tighter">
-          fatec<span className="text-[#f05179]">.</span>calc
+        <h1 className="text-white text-[40px] md:text-[40px] font-black tracking-tighter">
+          fatec<span className="text-[#ee4370]">.</span>calc
         </h1>
         <nav className="hidden md:flex gap-8 text-white/90 font-bold uppercase text-[12px] tracking-widest">
-          <button onClick={() => onStart('dashboard')} className="hover:text-[#f05179] transition-colors">Calculadora</button>
-          <button onClick={() => onStart('redacao')} className="hover:text-[#f05179] transition-colors">Análise de Redação</button>
-          <button onClick={() => onStart('guide')} className="hover:text-[#f05179] transition-colors">Guia do Candidato</button>
-          <button onClick={() => onStart('guide')} className="hover:text-[#f05179] transition-colors">Sobre</button>
+          <button onClick={() => onStart('dashboard')} className="hover:text-[#ee4370] transition-colors">Calculadora</button>
+          <button onClick={() => onStart('redacao')} className="hover:text-[#ee4370] transition-colors">Análise de Redação</button>
+          <button onClick={() => onStart('guide')} className="hover:text-[#ee4370] transition-colors">Guia do Candidato</button>
+          <button onClick={() => onStart('guide')} className="hover:text-[#ee4370] transition-colors">Sobre</button>
         </nav>
       </header>
 
       <section className="flex-1 flex flex-col md:flex-row items-center px-6 md:px-12 pt-0 pb-16 md:pb-24 md:pl-0 relative z-10">
-        <div className="hidden md:block w-full md:w-4/12 z-30 space-y-4 mb-12 md:mb-0 md:pl-4 text-left">
+        
+        <div className="hidden md:block w-full md:w-4/12 z-30 space-y-4 mb-12 md:mb-0 md:pl-4 text-left ml-12">
           <div className="flex flex-col items-start gap-2">
             <div className="flex items-center gap-2">
               <motion.div
@@ -120,7 +121,7 @@ const LandingPage: React.FC<LandingPageProps> = ({ onStart }) => {
               </motion.div>
               <motion.div
                 whileHover={{ rotate: 45, duration: 0.1 }}
-                className="bg-[#f05179] rounded-full p-3">
+                className="bg-[#ee4370] rounded-full p-3">
                 <ArrowRight size={35} />
               </motion.div>
             </div>
@@ -130,7 +131,7 @@ const LandingPage: React.FC<LandingPageProps> = ({ onStart }) => {
             </motion.div>
           </div>
           <p className="text-white font-bold text-[25.5px] max-w-[250px] leading-tight py- text-xl">
-            Use nossas ferramentas para calcular sua nota e organizar sua aprovação.
+Use nossas ferramentas para calcular sua nota, testar cenários e organizar seus próximos passos rumo à aprovação na Fatec.
           </p>
         </div>
 
@@ -157,7 +158,7 @@ const LandingPage: React.FC<LandingPageProps> = ({ onStart }) => {
                     whileHover={{ scale: 1.05 }}
                     whileTap={{ scale: 0.95 }}
                     onClick={() => onStart('dashboard')}
-                    className="bg-[#f05179] text-white font-bold -mt-[50px] text-xl md:text-xl px-8 py-4 md:px-8 md:py-4 shadow-[8px_8px_0px_#000] border-4 border-black active:shadow-none transition-all">
+                    className="bg-[#ee4370] text-white font-bold -mt-[50px] text-xl md:text-xl px-8 py-4 md:px-8 md:py-4 shadow-[8px_8px_0px_#000] border-4 border-black active:shadow-none transition-all">
                     vamos lá
                   </motion.button>
             </div>
@@ -173,10 +174,10 @@ const LandingPage: React.FC<LandingPageProps> = ({ onStart }) => {
         </div>
       </section>
 
-      <Ticker/>
+      <Ticker className="absolute -pt-10"/>
 
       {/* Acordeão */}
-      <section className="flex flex-col md:flex-row min-h-screen md:h-[700px] bg-black z-20">
+      <section className="flex flex-col md:flex-row md:h-[500px] bg-black z-20">
         {accordionItems.map((item, index) => {
           const isExpanded = expandedIndex === index;
           return (
@@ -185,16 +186,16 @@ const LandingPage: React.FC<LandingPageProps> = ({ onStart }) => {
               initial={false}
               animate={{
                 flex: isExpanded ? 6 : 1,
-                minHeight: isExpanded ? '450px' : '80px'
+                minHeight: isExpanded ? '500px' : '60px'
               }}
               className={`relative cursor-pointer flex flex-col md:flex-row overflow-hidden transition-all duration-500 ${item.color}`}
               onClick={() => setExpandedIndex(index)}
             >
-              <div className={`flex md:flex-col items-center justify-between p-2 md:p-2 md:py-16 h-[80px] md:h-full w-full md:w-[100px] flex-shrink-0 z-10 ${item.textColor}`}>
-                <span className="text-3xl md:text-7xl font-black tracking-tighter">
+              <div className={`hidden md:flex md:flex-col items-center justify-end p-4 md:h-full w-full md:w-[100px] flex-shrink-0 z-10 ${item.textColor}`}>
+                <span className="text-5xl md:text-5xl font-black tracking-tighter">
                   {item.number}
                 </span>
-                <span className="text-lg md:text-6xl font-black md:[writing-mode:vertical-lr] md:rotate-180 uppercase tracking-tighter whitespace-nowrap">
+                <span className="text-sm md:text-sm font-black md:[writing-mode:vertical-lr] md:rotate-180 uppercase tracking-widest whitespace-nowrap mt-2">
                   {item.verticalText}
                 </span>
               </div>
@@ -207,21 +208,21 @@ const LandingPage: React.FC<LandingPageProps> = ({ onStart }) => {
                     exit={{ opacity: 0 }}
                     className="flex-1 p-6 md:p-20 flex flex-col justify-center gap-6 md:gap-10 overflow-y-auto md:overflow-hidden"
                   >
-                    <div className="flex items-center gap-1 md:gap-3">
-                      <div className="p-3 md:p-5 bg-white rounded-2xl shadow-[4px_4px_0px_#000] border-2 md:border-4 border-black flex-shrink-0">
+                    <div className="flex items-center gap-2 md:gap-3">
+                      <div className="p-2 md:p-4 bg-white rounded-2xl shadow-[4px_4px_0px_#000] border-2 md:border-3 border-black flex-shrink-0">
                         {item.icon}
                       </div>
-                      <h3 className={`text-3xl md:text-7xl font-black ${item.textColor} uppercase tracking-tighter leading-none`}>
+                      <h3 className={`text-7xl md:text-7xl font-black ${item.textColor} uppercase tracking-tighter leading-none`}>
                         {item.title}
                       </h3>
                     </div>
 
-                    <div className="space-y-6 md:space-y-8 max-w-3xl">
-                      <p className={`text-xl md:text-3xl font-bold ${item.textColor} leading-tight tracking-tight`}>
+                    <div className="space-y-4 md:space-y-5 max-w-2xl">
+                      <p className={`text-base md:text-xl font-bold ${item.textColor} leading-tight tracking-tight`}>
                         <MarkerText
                           trigger={isExpanded}
                           delay={0.4}
-                          color={index === 0 ? "#f05179" : "#ffffff"}
+                          color={index === 0 ? "#ee4370" : "#ffffff"}
                         >
                           {item.description}
                         </MarkerText>
@@ -233,7 +234,7 @@ const LandingPage: React.FC<LandingPageProps> = ({ onStart }) => {
                           e.stopPropagation();
                           onStart(item.id);
                         }}
-                        className={`w-full md:w-fit flex items-center justify-center gap-4 px-8 py-4 md:px-12 md:py-6 text-xl md:text-2xl font-black uppercase tracking-tighter shadow-[6px_6px_0px_#000] border-4 border-black ${index === 0 ? 'bg-[#f05179] text-white' : 'bg-white text-black'
+                        className={`w-full md:w-fit flex items-center justify-center gap-3 px-6 py-3 md:px-10 md:py-4 text-base md:text-lg font-black uppercase tracking-tighter shadow-[4px_4px_0px_#000] border-3 border-black ${index === 0 ? 'bg-[#ee4370] text-white' : 'bg-white text-black'
                           }`}
                       >
                         Acessar <ArrowRight />
@@ -247,12 +248,12 @@ const LandingPage: React.FC<LandingPageProps> = ({ onStart }) => {
         })}
       </section>
 
-      <footer className="bg-black text-white p-12 flex flex-col items-center gap-6 border-t-4 border-white/10 relative z-30">
+      <footer className="bg-black text-white p-8 flex flex-col items-center gap-4 border-t-4 border-white/10 relative z-30">
         <div className="text-3xl font-black tracking-tighter">
-          fatec<span className="text-[#f05179]">.</span>calc
+          fatec<span className="text-[#ee4370]">.</span>calc
         </div>
-        <p className="text-white/40 font-bold uppercase tracking-[0.3em] text-[10px] text-center">
-          fatec calculadora © 2026 • de vestibulando para vestibulando
+        <p className="text-white/40 font-bold tracking-[0.3em] text-[10px] text-center">
+          Isaac Menezes © 2026
         </p>
       </footer>
     </div>

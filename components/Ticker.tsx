@@ -6,12 +6,12 @@ const Ticker: React.FC = () => {
   const repeatedText = Array(15).fill(text).join("");
 
   return (
-    <div className="relative -mb-[90px] md:-mb-[100px] z-50">
+    <div className="relative -mt-[60px] md:-mt-[60px] z-50">
       <div 
         className="relative"
         style={{ transform: 'rotate(-2deg)' }}
       >
-        <div className="bg-black py-10 md:py-4 border-y-8 border-black overflow-hidden">
+        <div className="bg-black py-10 md:py-2 pb-12 overflow-hidden">
           <motion.div
             animate={{ x: [0, -2000] }}
             transition={{
