@@ -46,12 +46,16 @@ const App: React.FC = () => {
             setInputs={setInputs} 
             results={results}
             onOpenMenu={() => setIsMenuOpen(true)}
+            setView={setView}
+            currentView={view}
           />
         )}
         {view === 'about' && (
           <AboutView 
             key="about"
             onOpenMenu={() => setIsMenuOpen(true)}
+            setView={setView}
+            currentView={view}
           />
         )}
       </AnimatePresence>

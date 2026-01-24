@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { motion } from 'framer-motion';
 
@@ -6,25 +7,25 @@ const Ticker: React.FC = () => {
   const repeatedText = Array(15).fill(text).join("");
 
   return (
-    <div className="relative -mt-[60px] md:-mt-[60px] z-50">
+    <div className="relative z-50 overflow-hidden py-4">
       <div 
         className="relative"
-        style={{ transform: 'rotate(-2deg)' }}
+        style={{ transform: 'rotate(-1.5deg)' }}
       >
-        <div className="bg-black py-10 md:py-2 pb-12 overflow-hidden">
+        <div className="bg-black py-6 md:py-8 overflow-hidden shadow-2xl">
           <motion.div
             animate={{ x: [0, -2000] }}
             transition={{
               x: {
                 repeat: Infinity,
                 repeatType: "loop",
-                duration: 30,
+                duration: 40,
                 ease: "linear",
               },
             }}
-            className="whitespace-nowrap"
+            className="whitespace-nowrap flex"
           >
-            <span className="text-white text-5xl md:text-7xl font-black uppercase tracking-tighter">
+            <span className="text-white text-3xl md:text-7xl font-black uppercase tracking-tighter inline-block">
               {repeatedText}
             </span>
           </motion.div>
