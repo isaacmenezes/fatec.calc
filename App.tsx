@@ -5,10 +5,8 @@ import LandingPage from './components/LandingPage';
 import SimulatorView from './components/SimulatorView';
 import AboutView from './components/AboutView';
 import MobileMenu from './components/MobileMenu';
-import { CalculatorInputs } from './types';
+import { CalculatorInputs, ViewState } from './types';
 import { useCalculator } from './hooks/useCalculator';
-
-export type ViewState = 'landing' | 'simulator' | 'about';
 
 const App: React.FC = () => {
   const [view, setView] = useState<ViewState>('landing');

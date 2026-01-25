@@ -11,23 +11,21 @@ interface LandingPageProps {
 
 const LandingPage: React.FC<LandingPageProps> = ({ onStart, onOpenMenu }) => {
   return (
-    <div className="relative min-h-screen flex flex-col overflow-x-hidden bg-[#0a0a0a]">
-      {/* Background Gradients */}
-      <div className="fixed inset-0 pointer-events-none z-0 bg-[radial-gradient(circle_at_top_right,_#1a56db22,_transparent_50%),_radial-gradient(circle_at_bottom_left,_#ee437011,_transparent_50%)]" />
+    <div className="relative min-h-screen flex flex-col overflow-x-hidden bg-[#FDF8F0]">
+      {/* Background Gradients - Soft and Pastel */}
+      <div className="fixed inset-0 pointer-events-none z-0 bg-[radial-gradient(circle_at_top_right,_#E990D122,_transparent_50%),_radial-gradient(circle_at_bottom_left,_#A5B4FC22,_transparent_50%)]" />
 
       {/* Header */}
       <header className="flex justify-between items-center z-20 p-6 md:px-12 md:py-8">
-        <h1 className="text-2xl md:text-3xl font-black tracking-tighter text-white">fatec.calc</h1>
+        <h1 className="text-2xl md:text-3xl font-black tracking-tighter text-[#111111]">fatec.calc</h1>
         
-        {/* Mobile Toggle */}
-        <button onClick={onOpenMenu} className="md:hidden p-2 text-white">
+        <button onClick={onOpenMenu} className="md:hidden p-2 text-[#111111]">
           <Menu size={32} />
         </button>
 
-        {/* Desktop Nav */}
         <nav className="hidden md:flex gap-12">
-          <button onClick={onStart} className="text-sm font-bold uppercase tracking-widest text-white hover:text-[#ee4370] transition-colors">calculadora</button>
-          <button onClick={() => {}} className="text-sm font-bold uppercase tracking-widest text-white hover:text-[#ee4370] transition-colors">como funciona</button>
+          <button onClick={onStart} className="text-sm font-black uppercase tracking-widest text-[#111111] hover:text-[#E990D1] transition-colors">calculadora</button>
+          <button onClick={() => {}} className="text-sm font-black uppercase tracking-widest text-[#111111] hover:text-[#A5B4FC] transition-colors">como funciona</button>
         </nav>
       </header>
 
@@ -37,17 +35,18 @@ const LandingPage: React.FC<LandingPageProps> = ({ onStart, onOpenMenu }) => {
           <motion.h2 
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            className="text-6xl md:text-[120px] font-black leading-[0.9] tracking-tighter text-white"
+            className="text-6xl md:text-[110px] font-black leading-[0.85] tracking-tighter text-[#111111]"
           >
-            SUA NOTA,<br className="hidden md:block" />SEM MISTÉRIO.
+            SUA NOTA,<br className="hidden md:block" /><span className="text-[#E990D1]">SEM MISTÉRIO.</span>
           </motion.h2>
           
           <motion.button
+            whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
             onClick={onStart}
-            className="bg-[#333333] text-white px-12 py-4 md:px-16 md:py-5 rounded-full text-xl font-bold shadow-xl border border-white/10 hover:bg-[#444] transition-all"
+            className="bg-[#111111] text-white px-12 py-5 md:px-16 md:py-6 rounded-full text-xl font-black shadow-2xl hover:shadow-[#E990D133] transition-all flex items-center gap-4"
           >
-            Vamos Lá
+            Começar Simulação
           </motion.button>
         </div>
 
@@ -56,42 +55,25 @@ const LandingPage: React.FC<LandingPageProps> = ({ onStart, onOpenMenu }) => {
            <motion.div 
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
-            className="w-[450px] aspect-square bg-[#333333] rounded-[32px] flex items-center justify-center border border-white/5 relative overflow-hidden"
+            className="w-[500px] aspect-square bg-white rounded-[64px] flex items-center justify-center border border-black/5 relative overflow-hidden shadow-2xl"
            >
-              <div className="w-32 h-32 opacity-20 text-white">
-                <svg viewBox="0 0 100 100" fill="currentColor">
-                   <path d="M50 20 L80 80 L20 80 Z" />
-                </svg>
+              <div className="absolute inset-0 bg-gradient-to-tr from-[#E990D111] to-[#A5B4FC11]" />
+              <div className="w-48 h-48 bg-[#FDF8F0] rounded-full flex items-center justify-center shadow-inner relative z-10">
+                <div className="w-12 h-12 bg-[#E990D1] rounded-full animate-pulse" />
               </div>
            </motion.div>
         </div>
       </main>
 
-      {/* Ticker - Ajustado para não quebrar mobile */}
+      {/* Ticker - Dark for high contrast */}
       <div className="z-20 py-4 md:my-10">
         <Ticker />
       </div>
 
-      {/* Elements Grid Desktop */}
-      <section className="p-6 md:px-12 grid grid-cols-1 md:grid-cols-3 gap-6 z-10 pb-20">
-        {[1, 2, 3].map((i) => (
-          <motion.div 
-            key={i}
-            className="aspect-[4/5] md:aspect-[4/5] bg-[#333333] rounded-[32px] flex items-center justify-center border border-white/5 relative overflow-hidden group"
-          >
-             <div className="w-20 h-20 opacity-10 group-hover:opacity-20 transition-opacity text-white">
-                <svg viewBox="0 0 100 100" fill="currentColor">
-                   <path d="M50 20 L80 80 L20 80 Z" />
-                </svg>
-             </div>
-          </motion.div>
-        ))}
-      </section>
-
       {/* Footer */}
-      <footer className="bg-[#333333] p-12 flex flex-col items-center gap-2 z-20 border-t border-white/5 text-white">
+      <footer className="bg-white p-12 flex flex-col items-center gap-2 z-20 border-t border-black/5 text-[#111111]">
         <div className="text-xl font-black tracking-tighter">fatec.calc</div>
-        <div className="text-[10px] font-bold uppercase tracking-[0.4em] opacity-40">2026 - de vestibulando para vestibulando</div>
+        <div className="text-[10px] font-black uppercase tracking-[0.4em] text-slate-400">2026 - de vestibulando para vestibulando</div>
       </footer>
     </div>
   );

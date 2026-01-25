@@ -16,9 +16,11 @@ export const MENU_ITEMS = [
 ];
 
 export const COLORS = {
-  primary: '#1a56db',
-  accent_pink: '#f05179',
-  dark: '#000000',
-  white: '#ffffff',
-  bg_gradient: 'linear-gradient(135deg, #1a56db 0%, #7e22ce 100%)'
+  bg: '#FDF8F0',
+  sidebar: '#111111',
+  pink: '#E990D1',
+  lavender: '#A5B4FC',
+  yellow: '#FCD34D',
+  blue: '#93C5FD',
+  text: '#0f172a'
 };
